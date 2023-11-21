@@ -1,0 +1,128 @@
+.navbar{
+    height: 80px;
+
+    .wrapper{
+        padding: 10px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .item{
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+
+
+        .left{
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .center{
+            width: 40px;
+        }
+        .right{
+            display: flex;
+            align-items: center;
+            gap: 25px;
+
+            .icons{
+                display: flex;
+                gap: 15px;
+                color:lightslategrey;
+                cursor: pointer;
+
+                .cartIcon{
+                    position: relative;
+                    span{
+                        width: 20px;
+                        height: 20px;
+                        font-size: 12px;
+                        border-radius: 50%;
+                        background-color:lightslategray;
+                        color: white;
+                        position: absolute;
+                        right: -10px;
+                        top: -10px;
+                        display: flex;
+                        justify-content: center;//horizontally
+                        align-items: center;//vertically
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 799px) {
+    .navbar {
+        display: block;
+      }
+      .wrapper {
+          width: 100%;
+          padding: 80px 0 15px;
+        .item {
+          display: none;
+          
+          .item{
+            float: none;
+            
+            a {
+              padding: 15px;
+              line-height: 20px;
+              
+              &:hover::before{
+                width: 20%;
+              }
+            }
+            ul li a {
+              padding-left: 30px;
+            }
+          }
+        }
+      }
+      .nav-dropdown {
+        position: static;
+      }
+    }
+    
+    #nav-toggle {
+      position: absolute;
+      left: 18px;
+      top: 22px;
+      cursor: pointer;
+      padding: 10px 35px 16px 0px;
+      span,
+      span:before,
+      span:after {
+        cursor: pointer;
+        border-radius: 1px;
+        height: 5px;
+        width: 35px;
+        background: black;
+        position: absolute;
+        display: block;
+        content: '';
+        transition: all 300ms ease-in-out;
+      }
+      span:before {
+        top: -10px;
+      }
+      span:after {
+        bottom: -10px;
+      }
+      &.active span {
+        background-color: transparent;
+        &:before,
+        &:after {
+          top: 0;
+        }
+        &:before {
+          transform: rotate(45deg);
+        }
+        &:after {
+          transform: rotate(-45deg);
+        }
+      }
+}
