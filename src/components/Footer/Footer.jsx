@@ -34,7 +34,7 @@ const Footer = () => {
         <div className="left">
           <span className="logo"><img src="/img/skiies.png" alt="studiologo" width={40}/></span>
           <span className="copyright">
-           © Copyright 2023. All Rights Reserved. 
+           © Copyright @lleewii 2024. All Rights Reserved. 
           </span>
         </div>
         <div className="right">
