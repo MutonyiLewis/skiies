@@ -2,6 +2,7 @@
     margin: 100px 200px 20px 200px;//Top right botttom left
     .top{
         display: flex;
+        flex-wrap: wrap;
         gap: 50px;
 
         .item{
@@ -46,4 +47,29 @@
             }
         }
     }
+
+    @media screen and (max-width: 767px) {
+        /* Customize styles for mobile phones here */
+    
+        // Reduce margins for smaller screens
+        margin: 40px 15px;
+    
+        // Stack elements vertically for better readability
+        .top,
+        .bottom {
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+    
+        // Adjust font sizes for smaller screens
+        h1 {
+          font-size: 16px;
+        }
+    
+        span,
+        .copyright {
+          font-size: 10px;
+        }
+      }
 }
