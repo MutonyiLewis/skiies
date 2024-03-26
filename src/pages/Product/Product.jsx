@@ -1,60 +1,64 @@
 import React, { useState } from 'react'
 import './Product.scss'
+import useFetch from '../../components/hooks/useFetch'
 import {AddShoppingCart, FavoriteBorder, BalanceOutlined,} from '@mui/icons-material/';
+import { useParams } from 'react-router-dom';
 
 const Product = () => {
 
-  const [selectedImage, setSelectedImage] = useState(0)
+  const id = useParams().id
+  const [selectedImage, setSelectedImage] = useState("img")
   const [quantity, setQuantity] = useState(1)
 
-  const images = [
-    "https://images.pexels.com/photos/7411615/pexels-photo-7411615.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    "https://images.pexels.com/photos/17676050/pexels-photo-17676050/free-photo-of-model-in-checkered-skirt.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  ]
+  const {data, loading, error} = useFetch(
+    `/products/${id}?populate=*`
+  )
   return (
     <div className='product'>
-      <div className="left">
-        <div className="images">
-          <img src={images[0]} alt=' 1' onClick={e=>setSelectedImage(0)}/>
-          <img src={images[1]} alt=' 2' onClick={e=>setSelectedImage(1)}/>
+    {loading ? "loading" : (<>
+    <div className="left">
+      <div className="images">
+        <img src={process.env.REACT_APP_UPLOAD_URL+data?.attributes?.img?.data?.attributes?.url} alt='No first image' onClick={e=>setSelectedImage("img")}/>
+        <img src={process.env.REACT_APP_UPLOAD_URL+data?.attributes?.img2?.data?.attributes?.url} alt='No second image' onClick={e=>setSelectedImage("img2")}/>
+      </div>
+      <div className="mainImg">
+      <img src={process.env.REACT_APP_UPLOAD_URL+data?.attributes?.[selectedImage].data?.attributes?.url} alt=' 1' />
+      </div>
+    </div>
+    <div className="right">
+      <h1>{data?.attributes?.title}</h1>
+      <span className='price'>Ksh. {data?.attributes?.price}</span>
+      <p>{data?.attributes?.desc}</p>
+      <div className="quantity">
+        <button onClick={()=>setQuantity(prev=> (prev === 1 ? 1 : prev - 1))}>-</button>
+        {quantity}
+        <button onClick={()=>setQuantity(prev=>prev+1)}>+</button>
+      </div>
+      <button className="add">
+        <AddShoppingCart /> Add  to Cart
+      </button>
+      <div className="links">
+        <div className="item">
+          <FavoriteBorder /> Add to wish list
         </div>
-        <div className="mainImg">
-        <img src={images[selectedImage]} alt=' 1' />
+        <div className="item">
+          <BalanceOutlined /> Add to Compare
         </div>
       </div>
-      <div className="right">
-        <h1>Title</h1>
-        <span className='price'>Ksh. 1200</span>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat quaerat nobis alias dolorem suscipit rerum minus adipisci fuga, deserunt ipsam. Necessitatibus fugit accusantium sed itaque, consequatur eveniet? Aspernatur, totam perspiciatis.</p>
-        <div className="quantity">
-          <button onClick={()=>setQuantity(prev=> (prev === 1 ? 1 : prev - 1))}>-</button>
-          {quantity}
-          <button onClick={()=>setQuantity(prev=>prev+1)}>+</button>
-        </div>
-        <button className="add">
-          <AddShoppingCart /> Add  to Cart
-        </button>
-        <div className="links">
-          <div className="item">
-            <FavoriteBorder /> Add to wish list
-          </div>
-          <div className="item">
-            <BalanceOutlined /> Add to Compare
-          </div>
-        </div>
-        <div className="info">
-          <span>Product: T-shirt</span>
-          <span>Tag: T-shirt, Women, Men</span>
-        </div>
-        <hr  />
-        <div className="info">
-          <span>DESCRIPTION</span>
-          <hr />
-          <span>Additional info</span>
-          <hr />
-          <span>FAQ</span>
-        </div>
+      <div className="info">
+        <span>Category: {data?.attributes?.categories?.data[0]?.attributes?.title}</span>
+        <span>Tag: {data?.attributes?.subcategories?.data[0]?.attributes?.title}</span>
       </div>
+      <hr  />
+      <div className="info">
+        <span>DESCRIPTION</span>
+        <hr />
+        <span>Additional info</span>
+        <hr />
+        <span>FAQ</span>
+      </div>
+    </div>
+    </>)}
     </div>
   )
 }

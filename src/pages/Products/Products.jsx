@@ -6,11 +6,22 @@ import useFetch from '../../components/hooks/useFetch'
 
 const Products = () => {
   const catId = parseInt(useParams().id)
-  //console.log(catId)
   const [maxPrice,setMaxPrice] = useState(5000)
   const [sort, setSort] = useState(null)
+  const [selectedSubCats, setSelectedSubCats] = useState([])
 
-  const {data, loading, error} = useFetch(`/subcategories?[filters][categories][id]=${catId}`)
+  const {data, loading, error} = useFetch(`/subcategories?[filters][categories][id][$eq]=${catId}`)
+  const handleSubChange = (e) => {
+    const value = e.target.value;
+    const  isChecked = e.target.checked;
+
+    setSelectedSubCats(isChecked 
+      ? [...selectedSubCats, value] 
+      : selectedSubCats.filter((item) => item !== value)
+      );
+
+
+  }
 
 
   return (
@@ -22,7 +33,7 @@ const Products = () => {
 
           {data?.map((item) => (
           <div className="inputItem" key={item.id}>
-            <input type='checkbox' id={item.id} value={item.id}/>
+            <input type='checkbox' id={item.id} value={item.id} onChange={handleSubChange}/>
             <label  htmlFor={item.id}>{item.attributes.title}</label><br />
           </div>
           ))}
@@ -55,7 +66,7 @@ const Products = () => {
           src='https://images.pexels.com/photos/8721969/pexels-photo-8721969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' 
           alt='landing'
         /> 
-        <List catId={catId} maxPrice={maxPrice} sort={sort}/>
+        <List catId={catId} maxPrice={maxPrice} sort={sort} subCats={selectedSubCats}/>
       </div>
     </div>
   )

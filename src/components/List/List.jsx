@@ -3,13 +3,20 @@ import './List.scss'
 import Card from '../Card/Card';
 import useFetch from '../hooks/useFetch';
 
-const List = () => {
+const List = ({catId, subCats, maxPrice, sort}) => {
+  console.log(catId)
+
+  const {data, loading, error} = useFetch(
+    `/products?populate=*&[filters][categories][id]=${catId}${subCats.map(
+      (item)=> `&[filters][subcategories][id][$eq]=${item}`
+      )}&[filters][price][$lte]=${maxPrice}&?sort[0]=price:${sort}`
+  )
     
   return (
     <div className="list">
-        {/* {data?.map(item=>(
+        {loading ? "loading" : data?.map(item=>(
             <Card item={item} key={item.id}/>
-        ))} */}
+        ))}
     </div>
   )
 }
