@@ -1,53 +1,43 @@
 import React from 'react'
 import './Cart.scss'
 import{ DeleteOutline } from '@mui/icons-material'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeItem, resetCart } from '../../redux/cartReducer';
 
 const Cart = () => {
 
-    const data = [
-        {
-        id: 1,
-        img: "https://images.pexels.com/photos/1457983/pexels-photo-1457983.jpeg?auto-compress&cs=tinysrgb&w=1600",
-        img2: "https://images.pexels.com/photos/2703433/pexels-photo-2703433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        title: "Skirt",
-        desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate quaerat nisi eius reprehenderit iure dolor rerum maxime architecto. Deserunt beatae nulla voluptas excepturi necessitatibus at sapiente dolores suscipit minus aut.",
-        isNew:true,
-        oldPrice: 1900,
-        price: 1200,
-       },
-       {
-        id: 2,
-        img: "https://images.pexels.com/photos/1457983/pexels-photo-1457983.jpeg?auto-compress&cs=tinysrgb&w=1600",
-        title: "Skirt",
-        //desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate quaerat nisi eius reprehenderit iure dolor rerum maxime architecto. Deserunt beatae nulla voluptas excepturi necessitatibus at sapiente dolores suscipit minus aut.",
-        isNew:true,
-        oldPrice: 1900,
-        price: 1200,
-        },
-    ];
+    const products = useSelector(state=>state.cart.products)
+    const dispatch = useDispatch()
+    const totalPrice = () => {
+        let total = 0
+        products.forEach(item=>
+            total+=item.quantity*item.price)
+            return total.toFixed(2)
+    }
 
+    console.log(products)
   return (
     <div className="cart">
         <h1>Products in your cart</h1>
-        {data?.map(item=>(
+        {products?.map(item=>(
             <div className="item" key={item.id}>
-                <img src={item.img} alt='selected item'/>
+                <img src={process.env.REACT_APP_UPLOAD_URL+item.img} alt='selected item'/>
                 <div className="details">
                     <h1>{item.title}</h1>
                     <p>{item.desc?.substring(0,100)}</p>
                     <div className="price">
-                        1 x {item.price}
+                        {item.quantity} x {item.price}
                     </div>
                 </div>
-                <DeleteOutline className='delete'/>
+                <DeleteOutline className='delete' onClick={()=>dispatch(removeItem(item.id))}/>
             </div>
         ))}
         <div className="total">
             <span>Sub Total</span>
-            <span>Ksh. 2500</span>
+            <span>Ksh. {totalPrice()}</span>
         </div>
         <button>Proceed to CheckOut</button>
-        <span className='reset'>Reset Cart </span>  
+        <span className='reset' onClick={()=>dispatch(resetCart())}>Reset Cart </span>  
     </div>
 
     
