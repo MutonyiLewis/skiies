@@ -61,7 +61,8 @@
     }
 
     button{
-        min-width: 300px;
+        max-width: 300px;
+        width: fit-content;
         padding: 10px;
         display: flex;
         align-items: center;
@@ -73,6 +74,7 @@
         background-color: #2879fe;
         color: white;
         font-weight: 500;
+        margin-top: 20px;
         margin-bottom: 20px;
     }
 
@@ -80,5 +82,19 @@
         color: red;
         font-size: 12px;
         cursor: pointer;
+    }
+    .payment-method{
+        margin: 8px 0px;
+    }
+    .mpesa-number{
+        width: 100%;
+        border-radius: 5px;
+        padding: 5px 0px;
+        margin: 8px 0px;
+        box-sizing: border-box;
+        transition: width 3s ease-in-out;
+    }
+    .mpesa-number:focus{
+        width: 100%;
     }
 }

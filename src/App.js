@@ -15,7 +15,7 @@ import "./App.scss"
 const Layout = () => {
   return (
     <div className="app">
-      <Navbar/>
+      <Navbar style={{'position':'sticky'}}/>
       <Outlet/>
       <Footer/>
     </div>
