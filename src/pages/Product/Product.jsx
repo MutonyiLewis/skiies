@@ -12,10 +12,13 @@ const Product = () => {
   const [selectedImage, setSelectedImage] = useState("img")
   const [quantity, setQuantity] = useState(1)
   const dispatch = useDispatch()
+  
 
   const {data, loading, error} = useFetch(
     `/products/${id}?populate=*`
   )
+
+  
   return (
     <div className='product'>
     {loading ? "loading" : (<>
@@ -44,7 +47,9 @@ const Product = () => {
         price: data.attributes.price,
         img:data.attributes.img.data.attributes.url,
         quantity,
-      }))}>
+      }))
+      }>
+        
         <AddShoppingCart /> Add  to Cart
       </button>
       <div className="links">
